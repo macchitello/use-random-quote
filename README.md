@@ -1,6 +1,7 @@
 # use-random-quote
 
 > A custom React Hook that provides a random quote.
+> It uses the type.fit/api/quotes endpoint to retrieve random quotes.
 
 [![NPM](https://img.shields.io/npm/v/use-random-quote.svg)](https://www.npmjs.com/package/use-random-quote) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
@@ -18,7 +19,14 @@ import React, { Component } from 'react'
 import { useRandomQuote } from 'use-random-quote'
 
 const App = () => {
-  const { loading, quote } = useRandomQuote()
+  const { loading, quote, error } = useRandomQuote()
+  /**
+   * loading {boolean} - loading state
+   * error {string} - error message in case of API failure
+   * quote {Object}
+   * quote.author {string} - qoute's author
+   * quote.text {string} - qoute's body
+  */
 
   return (
     <div className={styles.main}>
