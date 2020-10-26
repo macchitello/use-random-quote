@@ -15,12 +15,16 @@ npm install --save use-random-quote
 ```jsx
 import React, { Component } from 'react'
 
-import { useMyHook } from 'use-random-quote'
+import { useRandomQuote } from 'use-random-quote'
 
-const Example = () => {
-  const example = useMyHook()
+const App = () => {
+  const { loading, quote } = useRandomQuote()
+
   return (
-    <div>{example}</div>
+    <div className={styles.main}>
+      {loadingQuote && <span>Loading...</span>}
+      {!loadingQuote && <div>{quote.text}</div>}
+    </div>
   )
 }
 ```
