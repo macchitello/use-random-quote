@@ -26,21 +26,17 @@ describe('useRandomQuote', () => {
     expect(error).toBe('');
     expect(quote).toStrictEqual({});
 
-    // used when effects include async functions
-    // more info: https://github.com/testing-library/react-hooks-testing-library/issues/14
-    await act(async () => {
-      await waitForNextUpdate();
+    await waitForNextUpdate();
 
-      const {
-        loading: loadingUpdate,
-        error: errorUpdate,
-        quote: quoteUpdate
-      } = result.current;
+    const {
+      loading: loadingUpdate,
+      error: errorUpdate,
+      quote: quoteUpdate
+    } = result.current;
 
-      expect(loadingUpdate).toBe(false);
-      expect(errorUpdate).toBe('');
-      expect(MOCK_QUOTES).toContainEqual(quoteUpdate);
-    });
+    expect(loadingUpdate).toBe(false);
+    expect(errorUpdate).toBe('');
+    expect(MOCK_QUOTES).toContainEqual(quoteUpdate);
   })
   
   it('should return an error in case of API failure', async () => {
@@ -53,19 +49,17 @@ describe('useRandomQuote', () => {
     expect(error).toBe('');
     expect(quote).toStrictEqual({});
 
-    await act(async () => {
-      await waitForNextUpdate();
+    await waitForNextUpdate();
 
-      const {
-        loading: loadingUpdate,
-        error: errorUpdate,
-        quote: quoteUpdate
-      } = result.current;
+    const {
+      loading: loadingUpdate,
+      error: errorUpdate,
+      quote: quoteUpdate
+    } = result.current;
 
-      expect(loadingUpdate).toBe(false);
-      expect(errorUpdate).toBe(API_ERROR_MESSAGE);
-      expect(quoteUpdate).toStrictEqual(quote);
-    });
+    expect(loadingUpdate).toBe(false);
+    expect(errorUpdate).toBe(API_ERROR_MESSAGE);
+    expect(quoteUpdate).toStrictEqual(quote);
   })
 
   it('should handle an empty list', async () => {
@@ -78,18 +72,16 @@ describe('useRandomQuote', () => {
     expect(error).toBe('');
     expect(quote).toStrictEqual({});
 
-    await act(async () => {
-      await waitForNextUpdate();
+    await waitForNextUpdate();
 
-      const {
-        loading: loadingUpdate,
-        error: errorUpdate,
-        quote: quoteUpdate
-      } = result.current;
+    const {
+      loading: loadingUpdate,
+      error: errorUpdate,
+      quote: quoteUpdate
+    } = result.current;
 
-      expect(loadingUpdate).toBe(false);
-      expect(errorUpdate).toBe('');
-      expect(quoteUpdate).toStrictEqual(quote);
-    });
+    expect(loadingUpdate).toBe(false);
+    expect(errorUpdate).toBe('');
+    expect(quoteUpdate).toStrictEqual(quote);
   })
 });
