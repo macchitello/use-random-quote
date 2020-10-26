@@ -1,5 +1,5 @@
 {
-  "name": "use-random-quote",
+  "name": "@macchitello/use-random-quote",
   "version": "1.0.0",
   "description": "A custom React Hook that provides a random quote.",
   "author": "macchitello",

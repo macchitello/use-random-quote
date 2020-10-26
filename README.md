@@ -1,14 +1,18 @@
 # use-random-quote
 
 > A custom React Hook that provides a random quote.
-> It uses the type.fit/api/quotes endpoint to retrieve random quotes.
+It uses the [https://type.fit/api/quotes](https://type.fit/api/quotes) endpoint to retrieve random quotes.
 
 [![NPM](https://img.shields.io/npm/v/use-random-quote.svg)](https://www.npmjs.com/package/use-random-quote) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
 ## Install
 
 ```bash
-npm install --save use-random-quote
+npm install --save @macchitello/use-random-quote
+
+or
+
+yarn add @macchitello/use-random-quote
 ```
 
 ## Usage
