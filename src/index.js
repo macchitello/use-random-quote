@@ -7,7 +7,7 @@ import React, { useEffect, useState } from 'react'
  * @returns {Object} Contains quote's information such as loading, error and the text value
  */
 export const useRandomQuote = (options = {}) => {
-  const [quote, setQuote] = useState('')
+  const [quote, setQuote] = useState({})
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const { interval = 0 } = options
@@ -22,7 +22,10 @@ export const useRandomQuote = (options = {}) => {
 
       if (response.ok) {
         const randomQuote = json[Math.floor(Math.random() * json.length)]
-        setQuote(randomQuote)
+
+        if (randomQuote) {
+          setQuote(randomQuote)
+        }
       }
 
       if (!response.ok) {
@@ -31,7 +34,7 @@ export const useRandomQuote = (options = {}) => {
 
       setLoading(false)
     } catch (e) {
-      console.warn('Error fetching random quote', e);
+      console.warn('Error fetching random quote:', e);
 
       setError(e.toString())
       setLoading(false)

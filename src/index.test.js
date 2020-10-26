@@ -1,29 +1,95 @@
-import { useMyHook } from './'
+import { enableMocks } from 'jest-fetch-mock';
+enableMocks();
+
+import { useRandomQuote } from './'
 import { renderHook, act } from "@testing-library/react-hooks";
 
-// mock timer using jest
-jest.useFakeTimers();
+const MOCK_QUOTES = [
+  { author: 'Author 1', text: 'We are all one.' },
+  { author: 'Author 2', text: "If you choose first, you don't let other choose for you" },
+];
 
-describe('useMyHook', () => {
-  it('updates every second', () => {
-    const { result } = renderHook(() => useMyHook());
+const API_ERROR_MESSAGE = 'API is down';
 
-    expect(result.current).toBe(0);
-
-    // Fast-forward 1sec
-    act(() => {
-      jest.advanceTimersByTime(1000);
-    });
-
-    // Check after total 1 sec
-    expect(result.current).toBe(1);
-
-    // Fast-forward 1 more sec
-    act(() => {
-      jest.advanceTimersByTime(1000);
-    });
-
-    // Check after total 2 sec
-    expect(result.current).toBe(2);
-  })
+beforeEach(() => {
+  fetch.resetMocks()
 })
+
+describe('useRandomQuote', () => {
+  it('should fetch quotes and update state with a random quote', async () => {
+    fetch.mockResponseOnce(JSON.stringify(MOCK_QUOTES))
+
+    const { result, waitForNextUpdate } = renderHook(() => useRandomQuote());
+    const { loading, error, quote } = result.current;
+
+    expect(loading).toBe(true);
+    expect(error).toBe('');
+    expect(quote).toStrictEqual({});
+
+    // used when effects include async functions
+    // more info: https://github.com/testing-library/react-hooks-testing-library/issues/14
+    await act(async () => {
+      await waitForNextUpdate();
+
+      const {
+        loading: loadingUpdate,
+        error: errorUpdate,
+        quote: quoteUpdate
+      } = result.current;
+
+      expect(loadingUpdate).toBe(false);
+      expect(errorUpdate).toBe('');
+      expect(MOCK_QUOTES).toContainEqual(quoteUpdate);
+    });
+  })
+  
+  it('should return an error in case of API failure', async () => {
+    fetch.mockReject(() => Promise.reject(API_ERROR_MESSAGE));
+
+    const { result, waitForNextUpdate } = renderHook(() => useRandomQuote());
+    const { loading, error, quote } = result.current;
+
+    expect(loading).toBe(true);
+    expect(error).toBe('');
+    expect(quote).toStrictEqual({});
+
+    await act(async () => {
+      await waitForNextUpdate();
+
+      const {
+        loading: loadingUpdate,
+        error: errorUpdate,
+        quote: quoteUpdate
+      } = result.current;
+
+      expect(loadingUpdate).toBe(false);
+      expect(errorUpdate).toBe(API_ERROR_MESSAGE);
+      expect(quoteUpdate).toStrictEqual(quote);
+    });
+  })
+
+  it('should handle an empty list', async () => {
+    fetch.mockResponseOnce(JSON.stringify([]))
+
+    const { result, waitForNextUpdate } = renderHook(() => useRandomQuote());
+    const { loading, error, quote } = result.current;
+
+    expect(loading).toBe(true);
+    expect(error).toBe('');
+    expect(quote).toStrictEqual({});
+
+    await act(async () => {
+      await waitForNextUpdate();
+
+      const {
+        loading: loadingUpdate,
+        error: errorUpdate,
+        quote: quoteUpdate
+      } = result.current;
+
+      expect(loadingUpdate).toBe(false);
+      expect(errorUpdate).toBe('');
+      expect(quoteUpdate).toStrictEqual(quote);
+    });
+  })
+});
