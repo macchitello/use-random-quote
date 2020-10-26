@@ -1,0 +1,32 @@
+.main {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 0 32px;
+}
+
+.title {
+  border-bottom: 1px solid #dddddd;
+  display: flex;
+  flex-direction: row;
+  font-size: 36px;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  padding-bottom: 32px;
+  width: 100%;
+}
+
+.quoteInfo {
+  width: 100%;
+}
+
+.quoteField {
+  margin-bottom: 32px;
+}
+
+.quoteLabel {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
